@@ -1,6 +1,6 @@
 package com.lru.model;
 
-import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Component;
 
@@ -21,8 +21,6 @@ public class LRUCache {
 	
 	// actual size of the cache
 	int size;
-	
-	
 	
 
 	public LRUCache(int maxSize) {
@@ -115,7 +113,8 @@ public class LRUCache {
 				recent = recentNode;
 				size++;
 			}else{
-				
+				recent = recentNode;
+				old = recentNode;
 			}
 			return null;
 		}
@@ -124,12 +123,19 @@ public class LRUCache {
 	
 	
 public Node getValue(int key){
-		
-	//	if(){
-			
-		//}
-	return null;
-		
-	}
 
+	if(size > 0){
+		Node node = old;
+		// This part can be further optimized by using hashMap for storing key value pairs O(n) -> O(1)
+		while(null != node){
+			if(node.key == key){
+			   return node;
+			}else{
+				node = node.next;
+			}
+		}
+	}
+	
+	throw new NoSuchElementException();
+}
 }

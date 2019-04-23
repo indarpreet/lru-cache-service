@@ -1,5 +1,7 @@
 package com.lru.controller;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +26,12 @@ public class LruAction {
 	
 	@PutMapping(value="/put/{id}")
 	public Node putValue(@PathVariable("id") long id){
-		return lruService.putValue(id);
+		try{
+			return lruService.putValue(id);
+		}catch(NoSuchElementException e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
