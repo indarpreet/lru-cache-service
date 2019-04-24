@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import com.lru.model.LRUCache;
 
 @SpringBootApplication
-@ComponentScan(value = "com.lru")
+@ComponentScan(value="com.lru")
 public class SpringBootWebApplication {
 
 	public static void main(String[] args) {

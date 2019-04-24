@@ -2,8 +2,6 @@ package com.lru.model;
 
 import java.util.NoSuchElementException;
 
-import org.springframework.stereotype.Component;
-
 import com.lru.controller.SpringBootWebApplication;
 
 /**
@@ -11,7 +9,7 @@ import com.lru.controller.SpringBootWebApplication;
  * 
  * @author isokhi
  */
-@Component
+
 public class LRUCache {
 	// recently used node
 	private Node recent;
