@@ -25,7 +25,9 @@ public class LruApplicationTests {
 	public void setUp() {
 		LRUCache lruCache = new LRUCache(2);
 	}
-
+	/**
+	 * put value check
+	 */
 	@Test
 	public void putValue() {
 		// given
@@ -35,7 +37,9 @@ public class LruApplicationTests {
 		// then
 		Assertions.assertThat(cache.getSize()).isEqualTo(1);
 	}
-
+	/**
+	 * put value with deleting least recently used
+	 */
 	@Test
 	public void putValueWithDelete() {
 
@@ -52,7 +56,9 @@ public class LruApplicationTests {
 		Assertions.assertThat(cache.getMaxSize()).isEqualTo(2);
 		Assertions.assertThat(node3.getKey()).isEqualTo(1);
 	}
-
+	/**
+	 * test value not found exception
+	 */
 	@Test
 	public void getValueNotFound() {
 		// given
@@ -66,7 +72,9 @@ public class LruApplicationTests {
 		Node node3 = cache.getValue(3);
 
 	}
-
+	/**
+	 * test value found
+	 */
 	@Test
 	public void getValueFound() {
 		// given
@@ -78,7 +86,9 @@ public class LruApplicationTests {
 		Assertions.assertThat(node2.getKey()).isEqualTo(1);
 
 	}
-
+	/**
+	 * test least recently used delete case
+	 */
 	@Test
 	public void leastRecentlyUsedCheck() {
 		// given
@@ -86,12 +96,29 @@ public class LruApplicationTests {
 		// when
 		cache.putValue(1);
 		cache.putValue(2);
+		cache.getValue(2);
+		cache.getValue(1);
+		Node deleted = cache.putValue(3);
+		// then
+		Assertions.assertThat(deleted.getKey()).isEqualTo(2);
+
+	}
+	
+	
+	@Test
+	public void testHashMapIncreaseInSize() {
+		// given
+		LRUCache cache = lruCache.getInstance();
+		// when
+		cache.putValue(1);
+		cache.putValue(2);
 		cache.putValue(3);
 		cache.putValue(4);
-		cache.getValue(3);
-		Node deleted = cache.putValue(5);
+		cache.putValue(6);
+		cache.putValue(7);
+		Node deleted = cache.putValue(3);
 		// then
-		Assertions.assertThat(deleted.getKey()).isEqualTo(4);
+		Assertions.assertThat(cache.getHashMap().getArr().length).isEqualTo(8);
 
 	}
 

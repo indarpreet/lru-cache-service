@@ -37,7 +37,7 @@ public class LRUCache {
 	 */
 	public LRUCache(int maxSize) {
 		this.maxSize = maxSize;
-		this.hashMap = new HashMap();
+		this.hashMap = new HashMap(maxSize * 2);
 		cacheManager = new LRUCache[1];
 		cacheManager[0] = this;
 	}
@@ -58,26 +58,10 @@ public class LRUCache {
 
 
 	/**
-	 * @param recent the recent to set
-	 */
-	public void setRecent(Node recent) {
-		this.recent = recent;
-	}
-
-
-	/**
 	 * @return the old
 	 */
 	public Node getOld() {
 		return old;
-	}
-
-
-	/**
-	 * @param old the old to set
-	 */
-	public void setOld(Node old) {
-		this.old = old;
 	}
 
 
@@ -90,28 +74,11 @@ public class LRUCache {
 
 
 	/**
-	 * @param maxSize the maxSize to set
-	 */
-	public void setMaxSize(int maxSize) {
-		this.maxSize = maxSize;
-	}
-
-
-	/**
 	 * @return the size
 	 */
 	public int getSize() {
 		return size;
 	}
-
-
-	/**
-	 * @param size the size to set
-	 */
-	public void setSize(int size) {
-		this.size = size;
-	}
-
 
 	/**
 	 * @return the cacheManager
@@ -119,15 +86,6 @@ public class LRUCache {
 	public static LRUCache[] getCacheManager() {
 		return cacheManager;
 	}
-
-
-	/**
-	 * @param cacheManager the cacheManager to set
-	 */
-	public static void setCacheManager(LRUCache[] cacheManager) {
-		LRUCache.cacheManager = cacheManager;
-	}
-
 
 	/**
 	 * @return the hashMap
