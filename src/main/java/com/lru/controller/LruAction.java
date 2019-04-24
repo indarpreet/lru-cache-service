@@ -40,11 +40,11 @@ public class LruAction {
 		try {
 
 			CacheDTO cacheDTO = lruService.putValue(id);
-			userDefinedResponse = new UserDefinedResponse();
+
 			if (null != cacheDTO) {
-				userDefinedResponse.setMessage(HttpStatus.OK);
+				userDefinedResponse = new UserDefinedResponse(HttpStatus.OK, cacheDTO);
 			} else {
-				userDefinedResponse.setMessage(HttpStatus.OK);
+				userDefinedResponse = new UserDefinedResponse(HttpStatus.OK, null);
 			}
 
 			return userDefinedResponse;

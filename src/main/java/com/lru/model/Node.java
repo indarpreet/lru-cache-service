@@ -2,10 +2,10 @@ package com.lru.model;
 
 public class Node {
 
-	Node next;
-	Node prev;
-	int key;
-	int value;
+	private Node next;
+	private Node prev;
+	private int key;
+	private int value;
 
 	/**
 	 * @return the key
