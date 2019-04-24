@@ -29,8 +29,6 @@ public class LRUCache {
 
 	private HashMap hashMap;
 
-	public LRUCache() {
-	}
 	/**
 	 * initialize cache size on application startup 
 	 * This method is called from {@link SpringBootWebApplication}
@@ -50,6 +48,102 @@ public class LRUCache {
 	public static LRUCache getInstance() {
 		return cacheManager[0];
 	}
+	
+	/**
+	 * @return the recent
+	 */
+	public Node getRecent() {
+		return recent;
+	}
+
+
+	/**
+	 * @param recent the recent to set
+	 */
+	public void setRecent(Node recent) {
+		this.recent = recent;
+	}
+
+
+	/**
+	 * @return the old
+	 */
+	public Node getOld() {
+		return old;
+	}
+
+
+	/**
+	 * @param old the old to set
+	 */
+	public void setOld(Node old) {
+		this.old = old;
+	}
+
+
+	/**
+	 * @return the maxSize
+	 */
+	public int getMaxSize() {
+		return maxSize;
+	}
+
+
+	/**
+	 * @param maxSize the maxSize to set
+	 */
+	public void setMaxSize(int maxSize) {
+		this.maxSize = maxSize;
+	}
+
+
+	/**
+	 * @return the size
+	 */
+	public int getSize() {
+		return size;
+	}
+
+
+	/**
+	 * @param size the size to set
+	 */
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+
+	/**
+	 * @return the cacheManager
+	 */
+	public static LRUCache[] getCacheManager() {
+		return cacheManager;
+	}
+
+
+	/**
+	 * @param cacheManager the cacheManager to set
+	 */
+	public static void setCacheManager(LRUCache[] cacheManager) {
+		LRUCache.cacheManager = cacheManager;
+	}
+
+
+	/**
+	 * @return the hashMap
+	 */
+	public HashMap getHashMap() {
+		return hashMap;
+	}
+
+
+	/**
+	 * @param hashMap the hashMap to set
+	 */
+	public void setHashMap(HashMap hashMap) {
+		this.hashMap = hashMap;
+	}
+	
 	/**
 	 * inserts value inside cache and if cache is full deletes least recently used element and then inserts.
 	 * The data structure used is LinkedList with HashMap to get high time complexity
@@ -107,7 +201,7 @@ public class LRUCache {
 					this.recent.setNext(node);
 					node.setPrev(this.recent);
 					this.recent = node;
-				} else if (null == node.getPrev()) {
+				} else if (null == node.getPrev() && null != node.getNext()) {
 					node.getNext().setPrev(null);
 					this.old = node.getNext();
 					this.recent.setNext(node);
