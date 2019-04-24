@@ -36,7 +36,12 @@ public class CacheDTO {
 	public void setValue(int value) {
 		this.value = value;
 	}
-
+	
+	/**
+	 * Converts {@link Node} to user readable object
+	 * @param node
+	 * @return
+	 */
 	public static CacheDTO convertEntityToDTO(Node node) {
 		CacheDTO cacheDto = new CacheDTO();
 		cacheDto.setKey(node.getKey());

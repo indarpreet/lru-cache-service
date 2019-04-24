@@ -22,9 +22,11 @@ public class LRUCache {
 
 	// actual size of the cache
 	private int size;
-
+	
+    // cacheManager to provide cache object
 	private static LRUCache cacheManager[];
-
+	
+	// data structure for easy access to data
 	private HashMap hashMap;
 
 	/**
@@ -109,6 +111,7 @@ public class LRUCache {
 	public Node putValue(int key) {
 		// if key is not present
 		if (null == this.hashMap.get(key)) {
+			// random value added for key
 			int multiplicationConstant = 400;
 			Node recentNode = new Node();
 			recentNode.setKey(key);

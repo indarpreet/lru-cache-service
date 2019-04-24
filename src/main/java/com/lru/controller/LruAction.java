@@ -21,7 +21,11 @@ public class LruAction {
 
 	@Autowired
 	LruService lruService;
-
+	/**
+	 * To get value from cache
+	 * @param id
+	 * @return {@link UserDefinedResponse}
+	 */
 	@GetMapping(value = CacheConstant.GET)
 	public UserDefinedResponse getValue(@PathVariable("id") int id) {
 		UserDefinedResponse userDefinedResponse;
@@ -39,7 +43,11 @@ public class LruAction {
 			return new UserDefinedResponse(HttpStatus.INTERNAL_SERVER_ERROR, null);
 		}
 	}
-
+	/**
+	 * Put value into the cache
+	 * @param id
+	 * @return {@link UserDefinedResponse}
+	 */
 	@PutMapping(value = CacheConstant.PUT)
 	public UserDefinedResponse putValue(@PathVariable("id") int id) {
 		UserDefinedResponse userDefinedResponse;
