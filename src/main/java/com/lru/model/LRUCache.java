@@ -119,10 +119,14 @@ public class LRUCache {
 			// if the size of the cache is full
 			if (this.size == this.maxSize) {
 				Node deleted = this.old;
-				this.old = this.old.getNext();
-				this.old.setPrev(null);
-				this.recent.setNext(recentNode);
-				recentNode.setPrev(this.recent);
+				if(null != this.old.getNext()){
+					this.old = this.old.getNext();
+					this.old.setPrev(null);
+					this.recent.setNext(recentNode);
+					recentNode.setPrev(this.recent);
+				}else{
+					this.old = recentNode;
+				}	
 				this.recent = recentNode;
 				this.hashMap.put(recentNode.getKey(), recentNode);
 				this.hashMap.remove(deleted.getKey());
