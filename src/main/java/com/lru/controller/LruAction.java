@@ -26,11 +26,17 @@ public class LruAction {
 	public UserDefinedResponse getValue(@PathVariable("id") int id) {
 		UserDefinedResponse userDefinedResponse;
 		try {
-			CacheDTO cacheDTO = lruService.getValue(id);
-			userDefinedResponse = new UserDefinedResponse(HttpStatus.OK, cacheDTO);
+			if (id >= 0) {
+				CacheDTO cacheDTO = lruService.getValue(id);
+				userDefinedResponse = new UserDefinedResponse(HttpStatus.OK, cacheDTO);
+			} else {
+				userDefinedResponse = new UserDefinedResponse(HttpStatus.ILLEGAL_FORMAT, null);
+			}
 			return userDefinedResponse;
 		} catch (NoSuchElementException e) {
 			return new UserDefinedResponse(HttpStatus.NOT_FOUND, null);
+		} catch (Exception e) {
+			return new UserDefinedResponse(HttpStatus.INTERNAL_SERVER_ERROR, null);
 		}
 	}
 
@@ -38,15 +44,17 @@ public class LruAction {
 	public UserDefinedResponse putValue(@PathVariable("id") int id) {
 		UserDefinedResponse userDefinedResponse;
 		try {
+			if (id >= 0) {
+				CacheDTO cacheDTO = lruService.putValue(id);
 
-			CacheDTO cacheDTO = lruService.putValue(id);
-
-			if (null != cacheDTO) {
-				userDefinedResponse = new UserDefinedResponse(HttpStatus.OK, cacheDTO);
+				if (null != cacheDTO) {
+					userDefinedResponse = new UserDefinedResponse(HttpStatus.OK, cacheDTO);
+				} else {
+					userDefinedResponse = new UserDefinedResponse(HttpStatus.OK, null);
+				}
 			} else {
-				userDefinedResponse = new UserDefinedResponse(HttpStatus.OK, null);
+				userDefinedResponse = new UserDefinedResponse(HttpStatus.ILLEGAL_FORMAT, null);
 			}
-
 			return userDefinedResponse;
 		} catch (Exception e) {
 			return new UserDefinedResponse(HttpStatus.INTERNAL_SERVER_ERROR, null);

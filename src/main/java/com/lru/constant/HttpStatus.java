@@ -4,7 +4,8 @@ public enum HttpStatus {
 	
 	INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
 	OK(200, "Successfully Updated"),
-	NOT_FOUND(404, "Not Found");
+	NOT_FOUND(404, "Not Found"),
+	ILLEGAL_FORMAT(415 , "Input Not Supported");
 	
 	private final int value;
 

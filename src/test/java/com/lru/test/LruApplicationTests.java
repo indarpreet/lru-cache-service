@@ -104,7 +104,9 @@ public class LruApplicationTests {
 
 	}
 	
-	
+	/**
+	 * test increasing size of the hashMap when the map is full or the key value is more than map size
+	 */
 	@Test
 	public void testHashMapIncreaseInSize() {
 		// given
