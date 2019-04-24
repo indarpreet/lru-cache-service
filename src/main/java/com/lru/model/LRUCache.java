@@ -2,6 +2,7 @@ package com.lru.model;
 
 import java.util.NoSuchElementException;
 
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,111 +12,70 @@ import org.springframework.stereotype.Component;
 @Component
 public class LRUCache {
 	// recently used node
-	Node recent;
+	private Node recent;
 	
 	// least recently used node
-	Node old; 
+	private Node old; 
 	
 	// size for cache defined when application initialized
-	int maxSize;
+	private int maxSize;
 	
 	// actual size of the cache
-	int size;
+	private int size;
 	
+	
+	private static LRUCache cacheManager[] = new LRUCache[1];
+	
+	
+	private MyHashMap myHashMap;
+	
+
+	public LRUCache() {
+	}
 
 	public LRUCache(int maxSize) {
 		this.maxSize = maxSize;
-		
-		
+		this.myHashMap = new MyHashMap();
+		cacheManager[0] = this;
 	}
-
-
-	/**
-	 * @return the recent
-	 */
-	public Node getRecent() {
-		return recent;
-	}
-
-
-	/**
-	 * @param recent the recent to set
-	 */
-	public void setRecent(Node recent) {
-		this.recent = recent;
-	}
-
-
-	/**
-	 * @return the old
-	 */
-	public Node getOld() {
-		return old;
-	}
-
-
-	/**
-	 * @param old the old to set
-	 */
-	public void setOld(Node old) {
-		this.old = old;
-	}
-
-
-	/**
-	 * @return the maxSize
-	 */
-	public int getMaxSize() {
-		return maxSize;
-	}
-
-
-	/**
-	 * @param maxSize the maxSize to set
-	 */
-	public void setMaxSize(int maxSize) {
-		this.maxSize = maxSize;
-	}
-
-
-	/**
-	 * @return the size
-	 */
-	public int getSize() {
-		return size;
-	}
-
-
-	/**
-	 * @param size the size to set
-	 */
-	public void setSize(int size) {
-		this.size = size;
+	
+	public static LRUCache getInstance(){
+		return cacheManager[0];
 	}
 	
 	public Node putValue( int key ){
+		
+		if(null == this.myHashMap.get(key)){
 		int multiplicationConstant = 400;
 		Node recentNode = new Node();
 		recentNode.setKey(key);
 		recentNode.setValue(key * multiplicationConstant);
-		if(size == maxSize){
-			Node deleted = old;
-			old = old.next ;
-			old.prev = null;
-			recent.next = recentNode;
-			recentNode.prev = recent;
-			recent = recentNode;
+		if(this.size == this.maxSize){
+			Node deleted = this.old;
+			this.old = this.old.next ;
+			this.old.prev = null;
+			this.recent.next = recentNode;
+			recentNode.prev = this.recent;
+			this.recent = recentNode;
+			this.myHashMap.put(recentNode.key, recentNode);
+			this.myHashMap.remove(deleted.key);
 			return deleted;
 		}else{
 			
-			if(null != recent){
-				recent.next = recentNode;
-				recent = recentNode;
-				size++;
+			if(null != this.recent){
+				this.recent.next = recentNode;
+				recentNode.prev = this.recent;
+				this.recent = recentNode;
+				this.size++;
 			}else{
-				recent = recentNode;
-				old = recentNode;
+				this.recent = recentNode;
+				this.old = recentNode;
+				this.size++;
 			}
+			this.myHashMap.put(recentNode.key, recentNode);
+			return null;
+		}
+		}else{
 			return null;
 		}
 		
@@ -124,16 +84,23 @@ public class LRUCache {
 	
 public Node getValue(int key){
 
-	if(size > 0){
-		Node node = old;
-		// This part can be further optimized by using hashMap for storing key value pairs O(n) -> O(1)
-		while(null != node){
-			if(node.key == key){
-			   return node;
-			}else{
-				node = node.next;
+	if(this.size > 0){
+		Node node = this.myHashMap.get(key);
+		if(null != node){
+			if(null != node.prev && null != node.next){
+				node.prev.next = node.next;
+				node.next.prev = node.prev;
+				this.recent.next = node;
+				node.prev = recent;
+				this.recent = node;
+			}else if(null == node.prev){
+				node.next.prev = null;
+				this.old = node.next;
+				
 			}
-		}
+			return node;
+			}
+		throw new NoSuchElementException();
 	}
 	
 	throw new NoSuchElementException();

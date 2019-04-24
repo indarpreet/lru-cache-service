@@ -20,12 +20,12 @@ public class LruAction {
 	LruService lruService;
 	
 	@GetMapping(value = "/get/{id}")
-	public Node getValue(@PathVariable("id") long id){
+	public Node getValue(@PathVariable("id") int id){
 		return lruService.getValue(id);
 	}
 	
 	@PutMapping(value="/put/{id}")
-	public Node putValue(@PathVariable("id") long id){
+	public Node putValue(@PathVariable("id") int id){
 		try{
 			return lruService.putValue(id);
 		}catch(NoSuchElementException e){
