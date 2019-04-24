@@ -1,12 +1,12 @@
 package com.lru.model;
 
-public class MyHashMap {
+public class HashMap {
 
 	private Node arr[];
 	/**
 	 * Initialize the hashMap for cache on application startup with default size as 100
 	 */
-	public MyHashMap() {
+	public HashMap() {
 		arr = new Node[100];
 
 	}

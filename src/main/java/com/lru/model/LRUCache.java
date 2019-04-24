@@ -27,7 +27,7 @@ public class LRUCache {
 
 	private static LRUCache cacheManager[];
 
-	private MyHashMap myHashMap;
+	private HashMap hashMap;
 
 	public LRUCache() {
 	}
@@ -39,7 +39,7 @@ public class LRUCache {
 	 */
 	public LRUCache(int maxSize) {
 		this.maxSize = maxSize;
-		this.myHashMap = new MyHashMap();
+		this.hashMap = new HashMap();
 		cacheManager = new LRUCache[1];
 		cacheManager[0] = this;
 	}
@@ -58,7 +58,7 @@ public class LRUCache {
 	 */
 	public Node putValue(int key) {
 		// if key is not present
-		if (null == this.myHashMap.get(key)) {
+		if (null == this.hashMap.get(key)) {
 			int multiplicationConstant = 400;
 			Node recentNode = new Node();
 			recentNode.setKey(key);
@@ -71,8 +71,8 @@ public class LRUCache {
 				this.recent.setNext(recentNode);
 				recentNode.setPrev(this.recent);
 				this.recent = recentNode;
-				this.myHashMap.put(recentNode.getKey(), recentNode);
-				this.myHashMap.remove(deleted.getKey());
+				this.hashMap.put(recentNode.getKey(), recentNode);
+				this.hashMap.remove(deleted.getKey());
 				return deleted;
 			} else {
 				if (null != this.recent) {
@@ -85,7 +85,7 @@ public class LRUCache {
 					this.old = recentNode;
 					this.size++;
 				}
-				this.myHashMap.put(recentNode.getKey(), recentNode);
+				this.hashMap.put(recentNode.getKey(), recentNode);
 			}
 		}
 
@@ -99,7 +99,7 @@ public class LRUCache {
 	public Node getValue(int key) {
 		//if size of the cache is greater than zero
 		if (this.size > 0) {
-			Node node = this.myHashMap.get(key);
+			Node node = this.hashMap.get(key);
 			if (null != node) {
 				if (null != node.getPrev() && null != node.getNext()) {
 					node.getPrev().setNext(node.getNext());
